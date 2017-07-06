@@ -1,0 +1,10 @@
+/*******************************
+         Site Overrides
+*******************************/
+.ui.form textarea:not([rows]){
+  min-height: 3.5em;
+}
+
+.ui.action.input:not([class*="left action"])>.button, .ui.action.input:not([class*="left action"])>.buttons>.button, .ui.action.input:not([class*="left action"])>.dropdown {
+	border-radius: .2857rem 0 0 .2857rem;
+}

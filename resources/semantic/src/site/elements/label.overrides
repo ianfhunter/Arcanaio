@@ -1,0 +1,6 @@
+/*******************************
+         Site Overrides
+*******************************/
+.ui[class*="left pointing"].label:before{
+	z-index: 0;
+}

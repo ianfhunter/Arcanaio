@@ -1,0 +1,15 @@
+/*******************************
+         Site Overrides
+*******************************/
+.attached {
+    border-radius: 0px !important;
+}
+
+.ui.tabular.menu .active.item{
+  background-color: #f7f7f7;
+}
+
+.ui.vertical.menu .menu .indented.item{
+	margin-left: 0.5em;
+	font-size: 0.8em;
+}
