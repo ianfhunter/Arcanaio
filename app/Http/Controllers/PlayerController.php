@@ -558,10 +558,16 @@ class PlayerController extends Controller {
 		$player = Player::findOrFail(request('player'));
 		$this->authorize('update', $player);
 
-		$player->spells()->syncWithoutDetaching(request('spells'));
+        $req = request('spells');
+        
+        if(is_array($req)){
+		    $player->spells()->syncWithoutDetaching($req);
 
-		$request->session()->flash('status', 'Successfully added to your spellbook!');
-
+		    $request->session()->flash('status', 'Successfully added to your spellbook!');
+        }else{
+            $request->session()->flash('error', 'Invalid Spell');
+        }
+		
 		return redirect('character/' . $player->id . '#/spellbook');
 	}
 
