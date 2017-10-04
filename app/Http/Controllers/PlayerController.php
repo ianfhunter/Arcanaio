@@ -529,17 +529,22 @@ class PlayerController extends Controller {
 		$player = Player::findOrFail(request('player'));
 		$this->authorize('update', $player);
 
-		foreach (request('items') as $item) {
+        $req = request('items');
+        
+        if(is_array($req)){
+	        foreach ($req as $item) {
+	            $exists = $player->items->contains($item);
+	            if ($exists) {
+		            \DB::table('inventories')->where(['player_id' => $player->id, 'item_id' => $item])->increment('quantity');
+	            }
+	        }
 
-			$exists = $player->items->contains($item);
-			if ($exists) {
-				\DB::table('inventories')->where(['player_id' => $player->id, 'item_id' => $item])->increment('quantity');
-			}
-		}
-
-		$player->items()->syncWithoutDetaching(request('items'));
-
-		$request->session()->flash('status', 'Successfully added to your inventory!');
+	        $player->items()->syncWithoutDetaching(request('items'));
+            $request->session()->flash('status', 'Successfully added to your inventory!');
+        }else{
+            $request->session()->flash('error', 'Invalid Item');
+        }
+		
 
 		return redirect('character/' . $player->id . '#/inventory');
 	}
