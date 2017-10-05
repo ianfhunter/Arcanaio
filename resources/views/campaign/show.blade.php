@@ -75,60 +75,8 @@
   </section>
 </div>
 <div class="ui five wide column">
-  <div class="ui fluid card">
-    <div class="content">
-      <h4 class="ui sub header">Campaign Files</h4>
-      <div class="ui small feed">
-        @if($campaign->files->isEmpty())
-          No files attached.
-        @else
-          @foreach($campaign->files as $file)
-            <div class="event">
-              <div class="content">
-                <div class="summary">
-                   <a href="{{ Storage::url($file->path) }}" target="_blank" class="pull-left">{{ $file->name }}</a>
-                    <script id="previewImg" >
-                       document.addEventListener("DOMContentLoaded", function(event) { 
-                            var file = ("{{$file->path}}".split("."));
-                            var supported_previews=["png","jpg","JPEG","jpeg","JPG","PNG","bmp","BMP"]
-                            if(supported_previews.indexOf(file[file.length -1]) > -1){
-                                console.log("YES");
-                                var z = document.createElement('img');
-                                z.src = "{{Storage::url($file->path) }}";
-                                z.style  = "margin-top:5px";
-                                document.getElementById("preview{{$file->path}}").appendChild(z);
-                            }else{
-                                console.log("NO");
-                            }
-                        });
-                   </script>
-                   <div id="preview{{$file->path}}" style="text-align: center;"></div>
-                   @can('delete', $file)
-                   <form action="{{ url('file/delete/'.$file->id) }}" method="POST" class="pull-right">
-                     {{ csrf_field() }}
-                     {{ method_field('DELETE') }}
-                     <button type="submit" class="ui icon compact mini right floated red button">
-                         <i class="trash icon"></i>
-                     </button>
-                   </form>
-                   @endcan
-                </div>
-              </div>
-            </div>
-          @endforeach
-        @endif
+    @include('partials.files', ['data' => $campaign, 'type' => 'campaign'])
 
-      </div>
-    </div>
-    @can('update', $campaign)
-      <div class="extra content text-center">
-        <a class="ui mini button" id="upload-modal-trigger">
-          <i class="file pdf outline icon"></i>
-          Upload PDF or Image
-        </a>
-      </div>
-    @endcan
-  </div>
 
   <div class="ui fluid vertical labeled icon basic buttons">
       @can('update', $campaign)
