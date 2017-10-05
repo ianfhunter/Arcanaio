@@ -1424,6 +1424,22 @@
               <div class="content">
                 <div class="summary">
                    <a href="{{ Storage::url($file->path) }}" target="_blank" class="pull-left">{{ $file->name }}</a>
+                   <script id="previewImg" >
+                       document.addEventListener("DOMContentLoaded", function(event) { 
+                            var file = ("{{$file->path}}".split("."));
+                            var supported_previews=["png","jpg","JPEG","jpeg","JPG","PNG"]
+                            if(supported_previews.indexOf(file[file.length -1]) > -1){
+                                console.log("YES");
+                                var z = document.createElement('img');
+                                z.src = "{{Storage::url($file->path) }}";
+                                z.style  = "margin-top:5px";
+                                document.getElementById("preview{{$file->path}}").appendChild(z);
+                            }else{
+                                console.log("NO");
+                            }
+                        });
+                   </script>
+                   <div id="preview{{$file->path}}" style="text-align: center;"></div>
 
                    @can('delete', $file)
                    <form action="{{ url('file/delete/'.$file->id) }}" method="POST" class="pull-right">
